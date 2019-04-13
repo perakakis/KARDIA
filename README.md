@@ -1,4 +1,7 @@
 # KARDIA
+
+![KARDIA GUI](Documentation/Figures/kardia.bmp)
+
 KARDIA (“heart” in Greek) is a graphic user interface (GUI) designed for the analysis of cardiac interbeat interval (IBI) data. It was originally developed for the Human Psychophysiology research group in the University of Granada in Spain. Its first public release was on 11/2007 under a GNU General Public License.
 
 KARDIA was developed in the Matlab programming language and runs on recent Matlab releases (2007 or later) on all supported operating systems (Mac OS X, Unix and Windows). KARDIA allows interactive importing and visualization of both IBI data and event-related information. Available functions permit the analysis of phasic heart rate changes in response to specific visual or auditory stimuli, using either weighted averages or different interpolation methods (constant, linear, spline) at any user-defined analysis window andp sampling rate. KARDIA also provides functions to calculate all commonly used time-domain statistics of heart rate variability and to perform spectral decomposition by using either Fast Fourier Transform or auto-regressive models. Scaling properties of the IBI series can also be assessed by means of Detrended Fluctuation Analysis. Quantitative results can be easily exported in Excel and Matlab format for further statistical analysis.
