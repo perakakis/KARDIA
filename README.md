@@ -34,7 +34,7 @@ After preparing your IBI and event files, start the GUI by typing:
 ```kardia```
 
 # Import data and events
-To import the IBI information, first select the channel that contains the data (this is useful if your variable is a matrix containing more columns of data) and then the name of the data variable. Finally choose if the data are IBIs or R-wave events and if the time unit is seconds or milliseconds. For our sample data, ```Channel``` is ```1``` and ```Data var is ```data```.
+To import the IBI information, first select the channel that contains the data (this is useful if your variable is a matrix containing more columns of data) and then the name of the data variable. Finally choose if the data are IBIs or R-wave events and if the time unit is seconds or milliseconds. For our sample data, ```Channel``` is ```1``` and ```Data var``` is ```data```.
 
 ![Import data dialogue box.](Documentation/Figures/ImportData.png)
 
@@ -83,7 +83,7 @@ In our example we can choose the ```baseline``` code which marks the beginning o
 
 The next panel in the HRV module lets you select various parameters for spectral analysis. In the first step, KARDIA resamples the IBI data using spline interpolation at a sample rate defined by the user (2Hz or 4Hz). Subsequently, constant or linear detrending is performed using Matlab’s ```detrend()``` function. The IBI series is then multiplied by a hanning, hamming, blackmann or bartlett window, using Matlab’s built-in functions. The user can then choose between performing a Discrete Fourier Transform or applying an auto-regressive model to estimate the Power Spectral Density (using Matlab’s ```fft()``` and ```arburg()``` functions respectively). The resolution of the spectrogram depends on the number of points selected by the user. The auto option automatically assigns:
 
-'''N=2^nextpow2(length(hp))'''
+```N=2^nextpow2(length(hp))```
 
 where N is the number of points and hp the IBI series.
 
