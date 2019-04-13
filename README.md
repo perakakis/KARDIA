@@ -96,7 +96,7 @@ The last HRV module is used to perform the detrended fluctuation analysis (DFA),
 # Save data
 KARDIA keeps all current information about subjects, events and performed analyses in a variable called ```DATA```. At any moment you can click the disc icon on the GUI’s toolbar, choose a filename and save the DATA variable in the current directory. When you load this mat file the DATA variable appears on the workspace. You can now call the GUI using this variable as its input by typing:
 
-```kardia(DATA)````
+```kardia(DATA)```
 
 This command recovers the GUI at its state when the variable DATA was saved. Since the import of event information has to be performed individually for each subject, it is a good idea to save your work after completing this step, so that you don’t have to repeat it again in the future.
 
