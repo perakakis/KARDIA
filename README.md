@@ -52,11 +52,11 @@ After selecting conditions you need to define the epoch limits. Epoch start must
 
 After defining epoch limits choose the algorithm you wish to apply for the estimation of heart rate changes:
 
-1.```mean``` - calculates weighted averages within an analysis window according to the methodology described in ![Reyes del Paso & Vila, 1998](Documentation/Articles/reyesdelpaso1998.pdf).
+1.```mean``` - calculates weighted averages within an analysis window according to the methodology described in [Reyes del Paso & Vila, 1998](Documentation/Articles/reyesdelpaso1998.pdf).
 
-2.```CDR``` - applies the algorithm for the estimation of the cardiac defense response according to the paradigm described in ![Vila et al., 2007](Documentation/Articles/Cardiac-defense-From-attention-to-action_2007_International-Journal-of-Psychophysiology.pdf).
+2.```CDR``` - applies the algorithm for the estimation of the cardiac defense response according to the paradigm described in [Vila et al., 2007](Documentation/Articles/Cardiac-defense-From-attention-to-action_2007_International-Journal-of-Psychophysiology.pdf).
 
-3 ```constant```, ```linear```, ```spline``` - perform different interpolation methods. ```constant``` seems to be the most frequently used technique to calculate the averaged instantaneous heart period or rate in psychophysiology studies. It considers that HR is constant between to adjacent HR intervals. However, it seems to be the least effective estimate of the true spectrum. Preference should be done to ```spline``` for spectral estimation.
+3 ```constant```, ```linear```, ```spline``` - perform different interpolation methods. ```constant``` seems to be the most frequently used technique to calculate the averaged instantaneous heart period or rate in psychophysiology studies. It considers that HR is constant between adjacent HR intervals. However, it seems to be the least effective estimate of the true spectrum. Thus, for spectral estimation, the ```spline``` method should be prefered.
 
 The ```Unit``` option determines the output of the analysis; ```bpm``` for heart rate in beats per minute and ```sec``` for heart
 period in seconds. ```Time window``` lets you define the analysis window when using the mean algorithm, or the sample rate for the interpolation methods (CDR overrides time window as well as as epoch limits and performs the analysis according to the standards described in ![Vila et al., 2007](Documentation/Articles/Cardiac-defense-From-attention-to-action_2007_International-Journal-of-Psychophysiology.pdf). Finally, check the ```Remove baseline``` box if you want to subtract the baseline value from the estimated heart rate values (the baseline is always calculated with the mean algorithm).
@@ -82,5 +82,14 @@ The frequency ranges of the HF, LF and VLF spectral bands are defined in the spe
 
 The last HRV module is used to perform the detrended fluctuation analysis (DFA), an algorithm proposed by Peng et.al for the quantification of scaling exponents in non-stationary time series. Here you can select the range of boxes and if you want to use adjacent or overlapping (sliding) windows.
 
+![DFA plot.](Documentation/Figures/DFA.bmp)
 
+# Save data
+KARDIA keeps all current information about subjects, events and performed analyses in a variable called ```DATA```. At any moment you can click the disc icon on the GUI’s toolbar, choose a filename and save the DATA variable in the current directory. When you load this mat file the DATA variable appears on the workspace. You can now call the GUI using this variable as its input by typing:
 
+```kardia(DATA)````
+
+This command recovers the GUI at its state when the variable DATA was saved. Since the import of event information has to be performed individually for each subject, it is a good idea to save your work after completing this step, so that you don’t have to repeat it again in the future.
+
+# Export to Excel
+By clicking the Excel icon on the GUI’s toolbar you save all current information in an excel file for posterior statistical analysis. Depending on the processing speed of your hardware, Matlab needs some time to finish exporting the data to the excel spreadsheets. Make sure the process is finished before trying to access the excel file.
