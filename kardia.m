@@ -60,7 +60,7 @@ if nargin <1
     clearFcn
 end
 
-load gui_export.mat
+load gui_export.mat mat
 
 %% ---------- GUI LAYOUT -----------
 
@@ -1076,7 +1076,7 @@ toolabout = uipushtool(...
     function plot_kardia(src,eventdata)
         H=imread('kardia.jpg');
         image(H)
-        showaxes('off')
+        set (gca, 'Visible','off');    
     end
 
 %% Load Callbacks
@@ -2906,7 +2906,11 @@ toolabout = uipushtool(...
         end
         SubjectsPCR=DATA.Subjects;
         if subNum>1
-            SubjectsPCR=repmat(SubjectsPCR,1,DATA.GUI.PCRconditionsNum);
+            if isempty (DATA.GUI.PCRconditionsNum)                
+                SubjectsPCR=repmat(SubjectsPCR,1,1);
+            else
+                SubjectsPCR=repmat(SubjectsPCR,1,DATA.GUI.PCRconditionsNum);
+            end
         elseif subNum==1
             SubjectsPCR={SubjectsPCR};
         elseif isempty(subNum)
@@ -2962,7 +2966,11 @@ toolabout = uipushtool(...
         end
         SubjectsHRV=DATA.Subjects;
         if subNum>1
-            SubjectsHRV=repmat(SubjectsHRV,1,DATA.GUI.HRVconditionsNum);
+            if isempty (DATA.GUI.HRVconditionsNum)
+                SubjectsHRV=repmat(SubjectsHRV,1,1);
+            else
+                SubjectsHRV=repmat(SubjectsHRV,1,DATA.GUI.HRVconditionsNum);
+            end
         elseif subNum==1
             SubjectsHRV={SubjectsHRV};
         elseif isempty(subNum)
