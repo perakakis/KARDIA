@@ -31,9 +31,9 @@
 % This software is freely available at:
 % www.ugr.es/~peraka/home/kardia.html
 %
-% Copyright (C) 2007 2008 Pandelis Perakakis, 
-% University of Granada
-% email: peraka@ugr.es
+% Copyright (C) 2022 Pandelis Perakakis, 
+% Complutense University of Madrid
+% email: pperakakis@ucm.es
 %
 % Update v2.3 - 16/09/2008 - New GUI
 %
