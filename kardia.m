@@ -1,19 +1,19 @@
-% KARDIA ("heart" in Greek) is a graphic user interface (GUI) designed 
-% for the analysis of cardiac interbeat interval (IBI) data. KARDIA allows 
-% interactive importing and visualization of both IBI data and event-related 
+% KARDIA ("heart" in Greek) is a graphic user interface (GUI) designed
+% for the analysis of cardiac interbeat interval (IBI) data. KARDIA allows
+% interactive importing and visualization of both IBI data and event-related
 % information. Available functions permit the analysis of phasic heart rate
-% changes in response to specific visual or auditory stimuli, using either 
+% changes in response to specific visual or auditory stimuli, using either
 % weighted averages or different interpolation methods (constant, linear,
-% spline) at any user-defined sampling rate. KARDIA also provides the user 
-% with functions to calculate all commonly used time-domain statistics of 
-% heart rate variability and to perform spectral decomposition by using 
-% either Fast Fourier Transform or auto-regressive model. Scaling properties 
-% of the IBI series can also be assessed by means of Detrended Fluctuation 
-% Analysis. Quantitative results can be easily exported in Excel or MATLAB 
+% spline) at any user-defined sampling rate. KARDIA also provides the user
+% with functions to calculate all commonly used time-domain statistics of
+% heart rate variability and to perform spectral decomposition by using
+% either Fast Fourier Transform or auto-regressive model. Scaling properties
+% of the IBI series can also be assessed by means of Detrended Fluctuation
+% Analysis. Quantitative results can be easily exported in Excel or MATLAB
 % format for further statistical analysis.
 %
 % To start the GUI type "kardia" in the command window. For usage information
-% launch the User's Guide from the toolbox 
+% launch the User's Guide from the toolbox
 %
 % KARDIA is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@
 % This software is freely available at:
 % www.ugr.es/~peraka/home/kardia.html
 %
-% Copyright (C) 2022 Pandelis Perakakis, 
+% Copyright (C) 2022 Pandelis Perakakis,
 % Complutense University of Madrid
 % email: pperakakis@ucm.es
 %
@@ -50,7 +50,7 @@
 %
 % Update v2.8 - 22/01/2012   - Include coefficient to compensate for
 % windowing in spectral analysis, more precice number of windows included
-% PCR 
+% PCR
 % Update v2.9 - 10/06/2015   - Fix export data to mat function
 %
 % Update v3.1 - 12/04/2020   - Migration to GitHub. Revision history will
@@ -61,6 +61,22 @@ function main_figure = kardia(DATA)
 
 if nargin <1
     clearFcn
+end
+
+% add paths
+f = fullfile(pwd);
+if isempty(strfind(path, f))
+    addpath(f);
+end
+
+f = fullfile(pwd, 'Plugins');
+if isempty(strfind(path, f))
+    addpath(f);
+end
+
+f = fullfile(pwd, 'Developer');
+if isempty(strfind(path, f))
+    addpath(f);
 end
 
 load gui_export.mat mat
@@ -1079,7 +1095,7 @@ toolabout = uipushtool(...
     function plot_kardia(src,eventdata)
         H=imread('kardia.jpg');
         image(H)
-        set (gca, 'Visible','off');    
+        set (gca, 'Visible','off');
     end
 
 %% Load Callbacks
@@ -1445,7 +1461,7 @@ toolabout = uipushtool(...
         end
         DATA.GUI.PCR_TimeWindow=mat2str(window);
         DATA.GUI.PCR_Unit=unit;
-        
+
         % error messages
         if isempty (epochstart) && ...
                 algorithm~=2
@@ -1517,10 +1533,10 @@ toolabout = uipushtool(...
                     lat=analysis_lats(k);
                     switch algorithm
                         case 1 % mean
-                                [HR_mean,HRbsl]=PCR(Rdata,...
-                                    lat,lat + epochstart,...
-                                    epochend,...
-                                    window,unit);                                
+                            [HR_mean,HRbsl]=PCR(Rdata,...
+                                lat,lat + epochstart,...
+                                epochend,...
+                                window,unit);
                         case 2 % CDR
                             [HRbsl,HR_mean,values]=CDR(Rdata,...
                                 lat,15);
@@ -1530,13 +1546,13 @@ toolabout = uipushtool(...
                                 lat,'mean',unit);
                             % time vector
                             tt=lat:window:lat+epochend;
-                            
+
                             if strcmp(unit,'bpm') % switch unit
                                 xx=hr;
                             elseif strcmp(unit,'sec')
                                 xx=hp;
                             end
-                            
+
                             % case constant
                             if algorithm==3
                                 HR_mean=ecg_interp(t,xx,tt,'constant');
@@ -1560,7 +1576,7 @@ toolabout = uipushtool(...
                         HR_mean=HR;
                     end
                     HRbsl=mean(BSL);
-                end                
+                end
 
                 % save results structure
                 DATA.PCR(i).(SelectedConds{j}).BSL=HRbsl;
@@ -1842,11 +1858,11 @@ toolabout = uipushtool(...
 
                 hp=hp*1000;
                 thp=data.(SelectedConds{j}).thp;
-           
+
                 % spline interpolation
                 auxtime = thp(1):1/fs:thp(end);
                 hp2=(spline(thp,hp,auxtime))';
-             
+
                 % detrend hp
                 switch detrendmethod
                     case 1
@@ -1872,9 +1888,9 @@ toolabout = uipushtool(...
                         wdw=bartlett(length(hp3));
                         DATA.GUI.Spectral_Filter='bartlett';
                 end
-        
+
                 hp4=hp3.*wdw;
-                
+
                 % Calculate FFT points
                 switch points
                     case 1
@@ -1911,7 +1927,7 @@ toolabout = uipushtool(...
                 vlf=spPCRower(F,PSD,'vlf');
                 nhf=spPCRower(F,PSD,'nhf');
                 nlf=spPCRower(F,PSD,'nlf');
-                                 
+
                 % save results structure
                 DATA.HRV.Spectral(i).(SelectedConds{j}).PSD=PSD;
                 DATA.HRV.Spectral(i).(SelectedConds{j}).F=F;
@@ -1960,12 +1976,12 @@ toolabout = uipushtool(...
             errordlg('Box sizes must be integers','DFA')
             return
         end
-        
+
         if minbox<4
             errordlg('Minimum box size is 4','DFA')
             return
         end
-             
+
         % clear previous results
         DATA.HRV.DFA=[];
 
@@ -2077,7 +2093,7 @@ toolabout = uipushtool(...
         title('Phasic Cardiac Responses','Fontsize',8)
         xlabel('Time (sec)','Fontsize',8)
         ylabel(['Cardiac Response (' unit ')'],'Fontsize',8)
-       
+
         % return when no data exists
         if isempty(data)
             return
@@ -2749,7 +2765,7 @@ toolabout = uipushtool(...
         plot_PCR(axes_popfigure,[])
         title('Phasic Cardiac Responses','Fontsize',10)
         xlabel('Time (sec)','Fontsize',10)
-        ylabel(['Cardiac Response (' unit ')'],'Fontsize',10)        
+        ylabel(['Cardiac Response (' unit ')'],'Fontsize',10)
         legend(DATA.GUI.PCRconditions)
     end
 
@@ -2828,39 +2844,39 @@ toolabout = uipushtool(...
     function excel_callback(src,evtdata)
         % set warning off
         warning off MATLAB:xlwrite:AddSheet
-                
+
         % Add Java POI Libs to matlab javapath
         xlwrite_filepath=which('kardia.m');
         xlwrite_filepath=xlwrite_filepath(1:end-length('kardia.m'));
         xlwrite_filepath=[xlwrite_filepath 'Plugins/xlwrite/'];
-       
+
         javaaddpath([xlwrite_filepath 'poi_library/poi-3.8-20120326.jar']);
         javaaddpath([xlwrite_filepath 'poi_library/poi-ooxml-3.8-20120326.jar']);
         javaaddpath([xlwrite_filepath 'poi_library/poi-ooxml-schemas-3.8-20120326.jar']);
         javaaddpath([xlwrite_filepath 'poi_library/xmlbeans-2.3.0.jar']);
         javaaddpath([xlwrite_filepath 'poi_library/dom4j-1.6.1.jar']);
         javaaddpath([xlwrite_filepath 'poi_library/stax-api-1.0.1.jar']);
-        
+
         % create data structures for excel
         subNum=DATA.GUI.SubjectsNum;
-        
+
         %% General sheet
         % subject names
         data=DATA.Subjects';
         if ischar(data)
             data=data';
         end
-        SubjectsGeneral=[{'Subjects'}; data];        
+        SubjectsGeneral=[{'Subjects'}; data];
         % conditions
         data=DATA.Conditions';
         allconditions=[{'Conditions'}; data];
         % eventfiles
         eventfiles=DATA.GUI.Eventfiles;
         eventfiles=[{'Event Files'}; eventfiles];
-        
+
         %% PCR sheet
         % conditions
-        PCRconds=DATA.GUI.PCRconditions;       
+        PCRconds=DATA.GUI.PCRconditions;
         % parameters
         epochstart=DATA.GUI.PCR_EpochStart;
         epochend=DATA.GUI.PCR_EpochEnd;
@@ -2889,14 +2905,14 @@ toolabout = uipushtool(...
             'Subjects';...
             'Conditions';...
             'Baseline';...
-            'Values'};        
+            'Values'};
         bsl_values=[];
         hr_values=[];
         for i=1:condsnum
             bsl_values=[bsl_values data.(conds{i}).BSL];
             hr_values=[hr_values data.(conds{i}).HR'];
         end
-        
+
         % create empty matrixes if PCR is absent
         datamatrixPCR=DATA.GUI.PCRdatamatrix;
         count=1;
@@ -2909,7 +2925,7 @@ toolabout = uipushtool(...
         end
         SubjectsPCR=DATA.Subjects;
         if subNum>1
-            if isempty (DATA.GUI.PCRconditionsNum)                
+            if isempty (DATA.GUI.PCRconditionsNum)
                 SubjectsPCR=repmat(SubjectsPCR,1,1);
             else
                 SubjectsPCR=repmat(SubjectsPCR,1,DATA.GUI.PCRconditionsNum);
@@ -2956,9 +2972,9 @@ toolabout = uipushtool(...
             DATA.GUI.DFA_minbox;...
             DATA.GUI.DFA_maxbox;...
             DATA.GUI.DFA_sliding};
-        
+
         % grand average
-        HRVconds=DATA.GUI.HRVconditions;        
+        HRVconds=DATA.GUI.HRVconditions;
         count=1;
         for i=1:DATA.GUI.HRVconditionsNum % conditions header
             headerHRV(count:count+subNum-1)=HRVconds(i);
@@ -3013,7 +3029,7 @@ toolabout = uipushtool(...
             % all subjects
             matrix=[avIBI;SDNN;RMSSD;HF;LF;VLF;alpha];
             datamatrixHRV=[datamatrixHRV matrix];
-            
+
             % grand average
             meanHF=[meanHF mean(HF)];
             meanLF=[meanLF mean(LF)];
@@ -3044,7 +3060,7 @@ toolabout = uipushtool(...
             meanLF;...
             meanVLF;...
             meanalpha];
-       
+
         % Write excel file
         datafile = inputdlg('Filename','Excel');
         if ~isempty(datafile)
@@ -3108,8 +3124,8 @@ toolabout = uipushtool(...
             xlwrite([datafile{1} '.xls'],HRV_VariableNames,'HRV','D1');
             xlwrite([datafile{1} '.xls'],SubjectsHRV,'HRV','E1');
             xlwrite([datafile{1} '.xls'],headerHRV,'HRV','E2');
-            xlwrite([datafile{1} '.xls'],datamatrixHRV,'HRV','E3');            
-                        
+            xlwrite([datafile{1} '.xls'],datamatrixHRV,'HRV','E3');
+
             % HRV Average Sheet
             if isempty(HRVconds)
                 HRVconds={''};
@@ -3265,13 +3281,13 @@ toolabout = uipushtool(...
 
 %% ---- PCR
     function [HRmean,HRbsl]=PCR(t,TS,T0,T1,step,unit)
-      
+
         % get heart period
         [hp,t]=ecg_hp(t,'instantaneous');
 
         % calculate baseline HR
         HRbsl=ecg_stat(t,T0,TS,'mean',unit); % call ecg_stat
-     
+
         % calculate mean HR changes in variable window sizes defined by step
         nboxes=floor(T1/step); % number of boxes that fit in analysis window
         HRmean=[];
@@ -3688,7 +3704,7 @@ toolabout = uipushtool(...
 
 %% ---- isint
     function [d,ndx,varout] = isint(varargin)
-        
+
         C = varargin;
         nIn = nargin;
 
